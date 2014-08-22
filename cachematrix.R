@@ -3,8 +3,8 @@
 ## computing it repeatedly. Here I write a pair of functions that
 ## cache the inverse of a matrix.
 
-## This function performs the inversion of the matrix, using the solve function
-## (matrices are assumed to be invertible)
+## This function stores the inverted matrix, and sets up various
+## methods for accessing it (matrices are assumed to be invertible)
 
 makeCacheMatrix <- function(x = matrix()) {
 	m <- NULL
@@ -26,16 +26,15 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-	## The 'getinverse' element
-        m <- x[[4]]()
+        m <- x[['getinverse']]()
+	## if found (not NULL), return the inverse and finish
         if(!is.null(m)) {
                 message("getting cached data")
                 return(m)
         }
-	## The 'get' element
-        data <- x[[2]]()
+	## if not found, solve the matrix and set the result as the inverse
+        data <- x[['get']]()
         m <- solve(data, ...)
-	## The 'setinverse' element
-        x[[3]](m)
+        x[['setinverse']](m)
         m
 }
